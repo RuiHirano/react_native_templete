@@ -1,21 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+// react-native-get-random-valuesはindexのTopであること。
+import 'react-native-get-random-values'
+import React, { useEffect, useState } from 'react';
+import RouterComponent from './src/Route';
+import StoreProvider from './src/store';
 
-export default function App() {
+const App: React.FC = () => {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <StoreProvider>
+      <RouterComponent />
+    </StoreProvider>
   );
+
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
+

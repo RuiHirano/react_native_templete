@@ -1,0 +1,9 @@
+export { default as FormPage } from './form';
+export { default as TimelinePage } from './timeline';
+export { default as MyPage } from './mypage';
+export { default as SignPage } from './sign';
+export { default as SplashPage } from './splash';
+export { default as CommunitiesPage } from './communities';
+export { default as CommunityFormPage } from './community-form';
+export { default as ThreadPage } from './thread';
+export { default as ProfilePage } from './profile';
