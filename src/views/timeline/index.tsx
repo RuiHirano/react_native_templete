@@ -83,6 +83,33 @@ const sortMessages = (messages: Message[]) => {
 
 const mockImageUrl = 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg'
 
+const mockMessages = [
+    {
+        id: uuid(),
+        user: { avatar: mockImageUrl, name: "rui", id: uuid() },
+        images: [],
+        content: "良い",
+        createdAt: moment(),
+        updatedAt: moment(),
+    },
+    {
+        id: uuid(),
+        user: { avatar: mockImageUrl, name: "rui2", id: uuid() },
+        images: [],
+        content: "最高",
+        createdAt: moment(),
+        updatedAt: moment(),
+    },
+    {
+        id: uuid(),
+        user: { avatar: mockImageUrl, name: "rui3", id: uuid() },
+        images: [],
+        content: "いいね",
+        createdAt: moment(),
+        updatedAt: moment(),
+    }
+]
+
 interface Props {
     community: Community
 }
@@ -90,7 +117,7 @@ const TimelinePage: React.FC<Props> = (props) => {
     const { community } = props
     console.log("com ID: ", community.id)
     const userId = "0000"
-    const [messages, setMessages] = useState<Message[]>([])
+    const [messages, setMessages] = useState<Message[]>(mockMessages)
     const [refreshing, setRefreshing] = React.useState(false);
 
 
