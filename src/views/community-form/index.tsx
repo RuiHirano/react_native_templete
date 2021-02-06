@@ -47,10 +47,11 @@ const mockUser: User = {
     name: "平野　流",
     description: "名古屋大学M2",
     email: "r.hrn.0930@gmail.com",
-    avatar: mockImageUrl,
+    avatar: { id: "0", uri: mockImageUrl, size: 1000 },
     birthday: moment(),
     sex: "MALE",
     messages: [],
+    items: [],
     createdAt: moment(),
     updatedAt: moment()
 }

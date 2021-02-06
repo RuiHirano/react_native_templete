@@ -1,44 +1,74 @@
 import React, {
 	createContext,
-	FC,
-	useContext,
+	useCallback,
 	useEffect,
 	useReducer,
 } from 'react'
+import { newItem, Item } from '../types'
+import moment, { Moment } from "moment";
 
+export enum ItemActionType {
+	UPDATE_ITEMS = "UPDATE_ITEMS",
+	UPDATE_ITEM = "UPDATE_ITEM",
+	CREATE_ITEM = "CREATE_ITEM",
+	DELETE_ITEM = "DELETE_ITEM",
+}
 
-export enum ItemAction {
-	UPDATE_ITEMS = "UPDATE_ITEMS",	// itemsの更新
-	CREATE_ITEM = "CREATE_ITEM",	// itemの作成
-	UPDATE_ITEM = "UPDATE_ITEM",	// itemの更新
-	DELETE_ITEM = "DELETE_ITEM",	// itemの削除
+export type ItemAction = {
+	type: ItemActionType
+	item?: Item
+	items?: Item[]
 }
 
 type ContextValue = {
 	state: ItemState
-	dispatch: (newState: ItemAction) => void
+	dispatch: (action: ItemAction) => void
 }
 
 type ItemState = typeof initialState
 
 const initialState = {
-	count: 0,
+	items: [] as Item[],
+	//drafts : [] as Item[],
 }
 
 export const ItemStore = createContext({} as ContextValue)
 
-export const ItemProvider: FC<{}> = ({ children }) => {
+export const ItemProvider: React.FC<{}> = ({ children }) => {
 	const [state, dispatch] = useReducer(
 		(state: ItemState, action: ItemAction) => {
-			switch (action) {
-				case ItemAction.UPDATE_ITEMS:
-					return { ...state, count: state.count + 1 }
-				case ItemAction.UPDATE_ITEM:
-					return { ...state, count: state.count + 1 }
-				case ItemAction.CREATE_ITEM:
-					return { ...state, count: state.count + 1 }
-				case ItemAction.DELETE_ITEM:
-					return { ...state, count: state.count + 1 }
+			switch (action.type) {
+				case ItemActionType.UPDATE_ITEMS:
+					//console.log("Item State: ", action.items)
+					const items = action.items ? action.items : []
+					return { ...state, items: items }
+				case ItemActionType.UPDATE_ITEM:
+					//console.log("Item State: ", action.item)
+					const item = action.item ? action.item : newItem()
+					const newItems: Item[] = [...state.items]
+					state.items.forEach((trans, index) => {
+						if (trans.id === item.id) {
+							newItems[index] = item
+						}
+					})
+					return { ...state, items: newItems }
+				case ItemActionType.CREATE_ITEM:
+					//console.log("Item State: ", action.item)
+					const trans = action.item ? action.item : newItem()
+					const newTranss = [...state.items]
+					newTranss.push(trans)
+					return { ...state, items: newTranss }
+				case ItemActionType.DELETE_ITEM:
+					//console.log("Item State: ", action.item, state.items)
+					const tran = action.item ? action.item : newItem()
+					// delete
+					const newTrans: Item[] = []
+					state.items.forEach((trans) => {
+						if (trans.id !== tran.id) {
+							newTrans.push(trans)
+						}
+					})
+					return { ...state, items: newTrans }
 				default:
 					throw new Error()
 			};
@@ -46,9 +76,11 @@ export const ItemProvider: FC<{}> = ({ children }) => {
 		initialState,
 	)
 
+	// for debug
 	useEffect(() => {
-		// count が変更された場合の処理
-	}, [state.count])
+		//console.log("New Item State: ", state)
+
+	}, [state])
 
 	return (
 		<ItemStore.Provider value={{ state, dispatch }}>

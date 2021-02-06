@@ -14,12 +14,29 @@ export interface User {
     name: string
     description: string
     email: string
-    avatar: string
+    avatar: Image
     birthday?: Moment
     sex: "MALE" | "FEMALE" | "NONE"
     messages: Message[]
+    items: Item[]
     createdAt: Moment
     updatedAt: Moment
+}
+
+export const newUser = () => {
+    return {
+        id: "",
+        name: "",
+        description: "",
+        email: "",
+        avatar: { id: "", uri: "", size: 0 },
+        birthday: undefined,
+        sex: "NONE",
+        messages: [],
+        items: [],
+        createdAt: moment(),
+        updatedAt: moment()
+    } as User
 }
 
 export interface Location {
@@ -45,8 +62,7 @@ export interface OmittedUser {
 export interface Image {
     id: string
     uri: string
-    createdAt: Moment
-    updatedAt: Moment
+    size: number
 }
 
 export interface Community {
@@ -68,4 +84,18 @@ export interface CommunityLocation {
     latitude: number
     longitude: number
     radius: number
+}
+
+export interface Item {
+    id: string
+    updatedAt: Moment
+    createdAt: Moment
+}
+
+export const newItem = () => {
+    return {
+        id: moment().toISOString() + uuid(),
+        createdAt: moment(),
+        updatedAt: moment(),
+    } as Item
 }
