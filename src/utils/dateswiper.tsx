@@ -1,11 +1,10 @@
 import React, { createContext, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import { PeriodType } from './calculator';
 import moment, { Moment } from "moment";
 import Swiper from 'react-native-swiper'
-import RNPickerSelect, { Item } from 'react-native-picker-select';
 
+export type PeriodType = "year" | "months" | "days" | "all"
 
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
