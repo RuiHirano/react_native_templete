@@ -12,6 +12,7 @@ import { ItemActionType, ItemStore } from './store/item'
 import { UserActionType, UserStore } from './store/user'
 import { newUser } from './types'
 import SettingPage from './views/setting'
+import SignIn from './views/sign/SignIn'
 
 const styles = {
     tabIconContainerStyle: {
@@ -129,7 +130,7 @@ const RouterComponent: React.FC = () => {
                 <Scene key="timeline" component={TimelinePage} title="タイムライン" name='history' icon={TabBarIcon} />
                 <Scene key="form" component={FormPage} title="投稿する" />
                 <Scene key="communityForm" component={CommunityFormPage} title="コミュニティを作る" />
-                <Scene key="sign" component={SignPage} title="ログイン" />
+                <Scene key="sign" component={SignIn} title="ログイン" />
                 <Scene key="thread" component={ThreadPage} title="スレッド" />
                 <Scene key="profile" component={ProfilePage} title="プロフィールを編集" />
                 <Scene initial key="splash" component={SplashPage} hideNavBar />
