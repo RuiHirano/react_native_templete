@@ -7,23 +7,20 @@ import { SnackbarProvider } from './src/utils/snackbar';
 import { DialogProvider } from './src/utils/dialog';
 import { SpinnerProvider } from './src/utils/spinner';
 import { NetinfoProvider } from './src/utils/netinfo';
-import { APIProvider } from './src/api/provider';
 
 const App: React.FC = () => {
 
   return (
     <StoreProvider>
-      <APIProvider>
-        <DialogProvider>
-          <SnackbarProvider>
-            <SpinnerProvider>
-              <NetinfoProvider>
-                <RouterComponent />
-              </NetinfoProvider>
-            </SpinnerProvider>
-          </SnackbarProvider>
-        </DialogProvider>
-      </APIProvider>
+      <DialogProvider>
+        <SnackbarProvider>
+          <SpinnerProvider>
+            <NetinfoProvider>
+              <RouterComponent />
+            </NetinfoProvider>
+          </SpinnerProvider>
+        </SnackbarProvider>
+      </DialogProvider>
     </StoreProvider>
   );
 
