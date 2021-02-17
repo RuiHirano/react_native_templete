@@ -12,7 +12,7 @@ import { ItemActionType, ItemStore } from './store/item'
 import { UserActionType, UserStore } from './store/user'
 import { newUser } from './types'
 import SettingPage from './views/setting'
-import SignIn from './views/sign/SignIn'
+import SignIn from './views/sign'
 
 const styles = {
     tabIconContainerStyle: {

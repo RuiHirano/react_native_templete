@@ -42,48 +42,50 @@ const LabelInput: React.FC<LabelInputProps> = ({ label, errorMessage, control, i
 
 type FormData = {
     userId: string;
+    email: string;
     password: string;
+    passwordConfirm: string;
 };
 
-interface SignInProps {
-    onSignInSuccess: (user: User) => void
-    onSignInFeilure: (errMsg: string) => void
-    onMoveToSignUp: () => void
+interface SignUpProps {
+    onSignUpSuccess: (user: User) => void
+    onSignUpFeilure: (errMsg: string) => void
+    onMoveToSignIn: () => void
 }
 
-export const useSignIn = (props: SignInProps) => {
-    const { onSignInFeilure, onSignInSuccess, onMoveToSignUp } = props
+export const useSignUp = (props: SignUpProps) => {
+    const { onSignUpFeilure, onSignUpSuccess, onMoveToSignIn } = props
     const [loading, setLoading] = useState(false)
     //const { showSpinner, dismissSpinner } = useContext(SpinnerContext);
     //const [data, setData] = useState({ password: "", userId: "", email: "" })
 
-    const login = async (userId: string, password: string) => {
+    const signup = async (userId: string, email: string, password: string) => {
         setLoading(true)
         //showSpinner("ログインしています...")
         //setData({ ...data, password: password, userId: userId })
         try {
             //console.log("logindata: ", userId, password)
-            //await api.signIn(userId, password)
+            //await api.signUp(userId, password)
             const user = await api.fetchUser(userId)
             // update to store
             //dispatch({ type: UserActionType.UPDATE_USER, user: user })
             //dispatchTrans({ type: TransactionActionType.UPDATE_TRANSACTIONS, transactions: user.transactions })
-            onSignInSuccess(user)
+            onSignUpSuccess(user)
         } catch (err) {
             console.log("err: ", err)
             switch (err.code) {
                 case "UserNotConfirmedException":
                     // ユーザープール内に既に同じ username が存在する場合に起こる。
-                    onSignInFeilure("メールアドレス認証が完了していません")
+                    onSignUpFeilure("メールアドレス認証が完了していません")
                     break
 
                 case 'UserNotFoundException':
                     // ユーザーが存在しない場合
-                    onSignInFeilure("ユーザーが存在しません")
+                    onSignUpFeilure("ユーザーが存在しません")
                     break
                 default:
                     // その他のエラー
-                    onSignInFeilure("不明なエラーが発生しました")
+                    onSignUpFeilure("不明なエラーが発生しました")
             }
         }
         setLoading(false)
@@ -91,27 +93,37 @@ export const useSignIn = (props: SignInProps) => {
     };
 
 
-    const signInSchema = Yup.object().shape({
+    const signUpSchema = Yup.object().shape({
         userId: Yup.string()
             .required("ユーザーIDを入力してください")
             .min(6, "6文字以上にしてください")
+            .max(16, "16文字以下にしてください")
             .matches(/^[a-zA-Z0-9]+$/, "半角英数字を使用してください"),
+        email: Yup.string()
+            .required("メールアドレスを入力してください")
+            .email("メールアドレスが正しくありません"),
         password: Yup.string()
             .required("パスワードを入力してください")
             .min(8, "8文字以上にしてください")
             .max(16, "16文字以下にしてください")
             .matches(/^[a-zA-Z0-9]+$/, "半角英数字を使用してください"),
+        passwordConfirm: Yup.string()
+            .required("パスワードをもう一度入力してください")
+            .oneOf(
+                [Yup.ref("password")],
+                "パスワードが正しくありません"
+            )
     });
 
     const { handleSubmit, errors, control } = useForm<FormData>({
-        resolver: yupResolver(signInSchema)
+        resolver: yupResolver(signUpSchema)
     });
 
-    const onSubmit = handleSubmit(({ userId, password }) => {
-        login(userId, password)
+    const onSubmit = handleSubmit(({ userId, email, password }) => {
+        signup(userId, email, password)
     });
 
-    const renderSignIn = useCallback(() => {
+    const renderSignUp = useCallback(() => {
 
         return (
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
@@ -122,6 +134,12 @@ export const useSignIn = (props: SignInProps) => {
                         control={control}
                         id={"userId"}
                     />
+                    <LabelInput
+                        label="メールアドレス"
+                        errorMessage={errors.email ? errors.email.message : ""}
+                        control={control}
+                        id={"email"}
+                    />
 
                     <LabelInput
                         label="パスワード(英数字含め8文字以上)"
@@ -130,15 +148,22 @@ export const useSignIn = (props: SignInProps) => {
                         id={"password"}
                     />
 
-                    <Button onPress={() => onSubmit()} title="ログイン" disabled={loading} loading={loading} />
-                    <Button onPress={() => onMoveToSignUp()} type="clear" title="ユーザを作成する" />
+                    <LabelInput
+                        label="パスワード(確認)"
+                        errorMessage={errors.passwordConfirm ? errors.passwordConfirm.message : ""}
+                        control={control}
+                        id={"passwordConfirm"}
+                    />
+
+                    <Button onPress={() => onSubmit()} title="登録する" disabled={loading} loading={loading} />
+                    <Button onPress={() => onMoveToSignIn()} type="clear" title="ログインする" />
 
                 </View>
             </View>
         )
     }, [control, errors])
 
-    return { "renderSignIn": renderSignIn }
+    return { "renderSignUp": renderSignUp }
 }
 
 
