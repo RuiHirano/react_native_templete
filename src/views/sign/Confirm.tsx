@@ -1,12 +1,14 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, Input, Text } from 'react-native-elements'
+import { Dimensions, StyleSheet, View, ImageBackground } from 'react-native';
+import { Button, Input, Text, Card } from 'react-native-elements'
 import { Control, Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
 import AwsAPI from '../../api';
 import { newUser, User } from '../../types';
+import { RegisterBackground } from "../../constants/Images";
 
+const { width, height } = Dimensions.get("screen");
 type FormData = {
     code: string;
 };
@@ -101,15 +103,15 @@ export const useConfirm = (props: ConfirmProps) => {
     const renderConfirm = useCallback(() => {
 
         return (
-            <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                    <View style={{ width: '80%', marginTop: '20%' }}>
-                        <Text>Code (数字6文字)</Text>
+            <ImageBackground source={RegisterBackground} style={styles.background}>
+                <Card containerStyle={styles.card_container}>
+                    <Text style={styles.title}>Code</Text>
+                    <View style={styles.form_container}>
 
                         <Controller
                             render={({ onChange, onBlur, value }) => (
                                 <View>
-                                    <View style={{ flexDirection: "row", marginTop: 10 }}>
+                                    <View style={{ width: width * 0.8, flexDirection: "row", marginTop: 10 }}>
                                         {cordInputRefs.map((ref: any, index: number) => (
                                             <View style={{ flex: 1 }} key={index}>
                                                 <Input
@@ -119,6 +121,7 @@ export const useConfirm = (props: ConfirmProps) => {
                                                     blurOnSubmit={false}
                                                     //onSubmitEditing={() => { console.log("test") }}
                                                     style={{ borderWidth: 1, borderRadius: 10, textAlign: "center" }}
+                                                    inputStyle={{ fontSize: 20, fontWeight: 'bold' }}
                                                     onBlur={onBlur}
                                                     keyboardType="numeric"
                                                     onChangeText={oneValue => { // 1つの数字
@@ -159,7 +162,7 @@ export const useConfirm = (props: ConfirmProps) => {
                                             </View>
                                         ))}
                                     </View>
-                                    <Text style={{ color: "red" }}>{errors.code ? errors.code.message : ""}</Text>
+                                    <Text style={{ marginLeft: 10, color: 'red' }}>{errors.code ? errors.code.message : ""}</Text>
                                 </View>
                             )}
                             name="code"
@@ -169,12 +172,15 @@ export const useConfirm = (props: ConfirmProps) => {
                             defaultValue=""
                         />
 
-                        <Button onPress={onSubmit} title="登録" loading={loading} disabled={loading} />
-                        {/*<Button onPress={() => setStatus("Confirm")} type="clear" title="認証コードの入力" />*/}
-                        <Button onPress={resend} type="clear" title="再送する" />
+                        <View style={styles.button_container}>
+                            <Button containerStyle={styles.button} onPress={onSubmit} title="登録" loading={loading} disabled={loading} />
+                            {/*<Button containerStyle={styles.button}  onPress={() => setStatus("Confirm")} type="clear" title="認証コードの入力" />*/}
+                            <Button containerStyle={styles.button} onPress={resend} type="clear" title="再送する" />
+                        </View>
                     </View>
-                </View>
-            </View>
+                </Card>
+            </ImageBackground>
+
         )
     }, [control, errors])
 
@@ -182,3 +188,39 @@ export const useConfirm = (props: ConfirmProps) => {
 }
 
 
+const styles = StyleSheet.create({
+    background: {
+        backgroundColor: "black",
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    card_container: {
+        width: width * 0.9,
+        backgroundColor: "#F4F5F7",
+        borderRadius: 5,
+        elevation: 1,
+        alignItems: 'center'
+    },
+    form_container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10
+    },
+    title: {
+        textAlign: 'center',
+        fontSize: 25,
+        fontWeight: "bold",
+        margin: 30,
+    },
+    button_container: {
+        alignItems: 'center',
+        marginTop: 30,
+        marginBottom: 10
+    },
+    button: {
+        width: width * 0.5,
+        marginTop: 15,
+    }
+});

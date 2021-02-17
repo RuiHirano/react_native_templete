@@ -112,10 +112,6 @@ describe('SignIn Page', () => {
     })
 
     describe('UserID Field', () => {
-        it('UserIDラベルが存在する', () => {
-            const { getByText } = render(<SignIn />);
-            expect(getByText("ユーザーID (英数字含め6文字以上)"));
-        })
 
         it('UserIDテキストフィールドが存在する', () => {
             const { getByTestId } = render(<SignIn />);
@@ -161,11 +157,6 @@ describe('SignIn Page', () => {
 
 
     describe('Password Field', () => {
-
-        it('Passwordラベルが存在する', () => {
-            const { getByText } = render(<SignIn />);
-            expect(getByText("パスワード(英数字含め8文字以上)"));
-        })
 
         it('Passwordテキストフィールドが存在する', () => {
             const { getByTestId } = render(<SignIn />);

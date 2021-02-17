@@ -107,10 +107,6 @@ describe('SignUp Page', () => {
     })
 
     describe('UserID Field', () => {
-        it('UserIDラベルが存在する', () => {
-            const { getByText } = render(<SignUp />);
-            expect(getByText("ユーザーID (英数字含め6文字以上)"));
-        })
 
         it('UserIDテキストフィールドが存在する', () => {
             const { getByTestId } = render(<SignUp />);
@@ -155,10 +151,6 @@ describe('SignUp Page', () => {
     })
 
     describe('Email Field', () => {
-        it('Emailラベルが存在する', () => {
-            const { getByText } = render(<SignUp />);
-            expect(getByText("メールアドレス"));
-        })
 
         it('Emailテキストフィールドが存在する', () => {
             const { getByTestId } = render(<SignUp />);
@@ -193,11 +185,6 @@ describe('SignUp Page', () => {
 
 
     describe('Password Field', () => {
-
-        it('Passwordラベルが存在する', () => {
-            const { getByText } = render(<SignUp />);
-            expect(getByText("パスワード(英数字含め8文字以上)"));
-        })
 
         it('Passwordテキストフィールドが存在する', () => {
             const { getByTestId } = render(<SignUp />);
@@ -252,12 +239,6 @@ describe('SignUp Page', () => {
     })
 
     describe('Password Confirm Field', () => {
-
-        it('Password Confirmラベルが存在する', () => {
-            const { getByText } = render(<SignUp />);
-            expect(getByText("パスワード(確認)"));
-        })
-
         it('Password Confirmテキストフィールドが存在する', () => {
             const { getByTestId } = render(<SignUp />);
             expect(getByTestId("passwordConfirm"));

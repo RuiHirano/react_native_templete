@@ -1,33 +1,43 @@
 import React, { useCallback, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, Input, Text } from 'react-native-elements'
+import { Dimensions, StyleSheet, View, ImageBackground } from 'react-native';
+import { Button, Input, Text, Card } from 'react-native-elements'
 import { Control, Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
 import AwsAPI from '../../api';
 import { User } from '../../types';
+import { RegisterBackground } from "../../constants/Images";
 
 const api = new AwsAPI()
+const { width, height } = Dimensions.get("screen");
 
 interface LabelInputProps {
     label: string
     errorMessage: string | undefined
     control: Control<FormData>
     id: string
+    iconName: string
+    helperText?: string
+    security?: boolean
 }
 
-const LabelInput: React.FC<LabelInputProps> = ({ label, errorMessage, control, id }) => {
+const LabelInput: React.FC<LabelInputProps> = ({ label, errorMessage, control, id, iconName, helperText, security }) => {
     return (
         <Controller
             render={({ onChange, onBlur, value }) => (
                 <View>
-                    <Text>{label}</Text>
                     <Input
                         testID={id}
                         onBlur={onBlur}
                         onChangeText={value => onChange(value)}
                         value={value}
+                        containerStyle={{ width: width * 0.8 }}
+                        leftIconContainerStyle={{ margin: 15 }}
+                        inputContainerStyle={{ elevation: 1, borderRadius: 30, backgroundColor: 'white' }}
                         errorMessage={errorMessage}
+                        leftIcon={{ type: 'font-awesome', name: iconName }}
+                        placeholder={helperText}
+                        secureTextEntry={security}
                     />
                 </View>
             )}
@@ -126,40 +136,55 @@ export const useSignUp = (props: SignUpProps) => {
     const renderSignUp = useCallback(() => {
 
         return (
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <View style={{ width: '80%', marginTop: '20%' }}>
-                    <LabelInput
-                        label="ユーザーID (英数字含め6文字以上)"
-                        errorMessage={errors.userId ? errors.userId.message : ""}
-                        control={control}
-                        id={"userId"}
-                    />
-                    <LabelInput
-                        label="メールアドレス"
-                        errorMessage={errors.email ? errors.email.message : ""}
-                        control={control}
-                        id={"email"}
-                    />
+            <ImageBackground source={RegisterBackground} style={styles.background}>
+                <Card containerStyle={styles.card_container}>
+                    <Text style={styles.title}>Sign Up</Text>
+                    <View style={styles.form_container}>
+                        <LabelInput
+                            label="ユーザーID (英数字含め6文字以上)"
+                            errorMessage={errors.userId ? errors.userId.message : ""}
+                            control={control}
+                            id={"userId"}
+                            iconName={"user"}
+                            helperText={"User ID"}
+                        />
+                        <LabelInput
+                            label="メールアドレス"
+                            errorMessage={errors.email ? errors.email.message : ""}
+                            control={control}
+                            id={"email"}
+                            iconName={"envelope"}
+                            helperText={"user@email.com"}
+                        />
 
-                    <LabelInput
-                        label="パスワード(英数字含め8文字以上)"
-                        errorMessage={errors.password ? errors.password.message : ""}
-                        control={control}
-                        id={"password"}
-                    />
+                        <LabelInput
+                            label="パスワード(英数字含め8文字以上)"
+                            errorMessage={errors.password ? errors.password.message : ""}
+                            control={control}
+                            id={"password"}
+                            iconName={"lock"}
+                            helperText={"Password"}
+                            security
+                        />
 
-                    <LabelInput
-                        label="パスワード(確認)"
-                        errorMessage={errors.passwordConfirm ? errors.passwordConfirm.message : ""}
-                        control={control}
-                        id={"passwordConfirm"}
-                    />
+                        <LabelInput
+                            label="パスワード(確認)"
+                            errorMessage={errors.passwordConfirm ? errors.passwordConfirm.message : ""}
+                            control={control}
+                            id={"passwordConfirm"}
+                            iconName={"lock"}
+                            helperText={"Password Confirm"}
+                            security
+                        />
 
-                    <Button onPress={() => onSubmit()} title="登録する" disabled={loading} loading={loading} />
-                    <Button onPress={() => onMoveToSignIn()} type="clear" title="ログインする" />
+                        <View style={styles.button_container}>
+                            <Button containerStyle={styles.button} onPress={() => onSubmit()} title="登録する" disabled={loading} loading={loading} />
+                            <Button containerStyle={styles.button} onPress={() => onMoveToSignIn()} type="clear" title="ログインする" />
+                        </View>
 
-                </View>
-            </View>
+                    </View>
+                </Card>
+            </ImageBackground>
         )
     }, [control, errors])
 
@@ -167,3 +192,38 @@ export const useSignUp = (props: SignUpProps) => {
 }
 
 
+const styles = StyleSheet.create({
+    background: {
+        backgroundColor: "black",
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    card_container: {
+        width: width * 0.9,
+        backgroundColor: "#F4F5F7",
+        borderRadius: 5,
+        elevation: 1,
+        alignItems: 'center'
+    },
+    form_container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 40
+    },
+    title: {
+        textAlign: 'center',
+        fontSize: 25,
+        fontWeight: "bold",
+        margin: 30,
+    },
+    button_container: {
+        alignItems: 'center',
+        marginBottom: 10
+    },
+    button: {
+        width: width * 0.5,
+        marginTop: 15,
+    }
+});

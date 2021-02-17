@@ -9,7 +9,7 @@ import { useConfirm } from './Confirm';
 
 const SignPage: React.FC = () => {
 
-    const [page, setPage] = useState<"Signup" | "Signin" | "Confirm">("Confirm")
+    const [page, setPage] = useState<"Signup" | "Signin" | "Confirm">("Signin")
     const { showSnackbar } = useContext(SnackbarContext);
 
     const { renderConfirm } = useConfirm({
