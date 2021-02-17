@@ -13,6 +13,7 @@ import { UserActionType, UserStore } from './store/user'
 import { newUser } from './types'
 import SettingPage from './views/setting'
 import SignIn from './views/sign'
+import Home from './views/home'
 
 const styles = {
     tabIconContainerStyle: {
@@ -122,6 +123,7 @@ const RouterComponent: React.FC = () => {
                         key="tabbar" tabs
                         hideNavBar
                     >
+                        <Scene key="home" component={Home} title="ホーム" name='home' icon={TabBarIcon} />
                         <Scene key="communities" component={CommunitiesPage} title="コミュニティ" name='history' icon={TabBarIcon} />
                         <Scene key="mypage" component={MyPage} title="マイページ" name='account-circle' icon={TabBarIcon} />
 

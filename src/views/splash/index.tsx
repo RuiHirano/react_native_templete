@@ -12,7 +12,7 @@ const SplashPage: React.FC = () => {
         //Actions.reset("sign")
         (async () => {
             console.log("auth")
-            Actions.reset("sign")
+            Actions.reset("main")
             /*Auth.currentAuthenticatedUser({
                 bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
             }).then(async () => {

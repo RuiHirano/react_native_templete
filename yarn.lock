@@ -2471,6 +2471,11 @@
     pouchdb-collections "^1.0.1"
     tiny-queue "^0.2.1"
 
+"@freakycoder/react-native-bounceable@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@freakycoder/react-native-bounceable/-/react-native-bounceable-0.2.4.tgz#5347e1034ce4b48f0cad1ee5fcbef26c19c4fa3d"
+  integrity sha512-Gw9TuO65oCzYYz78RV6OtUjfdbYPdt2RIrDt441oo3JV8++aW9485z9GCqrqxNi1qCO8gC18iNkFLfBMhazZpA==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -9086,6 +9091,11 @@ react-native-modal@>=9.0.0:
   dependencies:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
+
+react-native-monthly@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-monthly/-/react-native-monthly-0.1.5.tgz#67ad82c9bd7b11a2f30c1903f4d26af9d79db00f"
+  integrity sha512-2ZkAuKCIlE1Z4oLS6tqlI4Q/FzdzGbzAxzj/9txYCHzOW+nHYojrnpPx45cAU/Lkt5BOCXn3LCaIxRSMGbZHhQ==
 
 react-native-paper@^4.7.1:
   version "4.7.1"
